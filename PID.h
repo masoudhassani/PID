@@ -18,14 +18,19 @@ class PID
         float gainD; // d gain
         float controlEffort;  // pid control effort
         float error;  // setpoint - current
+        float errorPrev;
         float integral;
         float proportional;
         float differential;
+        float minEffort;
+        float maxEffort;
+        float tolerance;
 
     public:
-        PID(float p, float i, float d, bool windup, float thresh);
+        PID(float p, float i, float d, bool windup, float min, float max, float tol);
         void  setGain(float p, float i, float d);    // sets gains
         void  resetIntegral();    // reset integral
+        void  reset();  // reset all controls
         float update(float set, float current);  // main callback to calculate control effort
 };
 
