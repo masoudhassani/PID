@@ -33,8 +33,8 @@ float PID::update(float set, float current)
     // control effort calculation
     error = set - current;
     proportional = gainP * error;
-    integral += gainI * dt * error;
-    differential = gainP * (error - errorPrev) / dt;
+    integral += gainI * dt * error / 1000000;
+    differential = gainP * (error - errorPrev) * 1000000 / dt;
 
     // if error is large enough
     if (abs(error) > tolerance)
