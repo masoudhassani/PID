@@ -34,7 +34,7 @@ float PID::update(float set, float current)
     error = set - current;
     proportional = gainP * error;
     integral += gainI * dt * error / 1000000;
-    differential = gainP * (error - errorPrev) * 1000000 / dt;
+    differential = gainD * (error - errorPrev) * 1000000 / dt;
 
     // if error is large enough
     if (abs(error) > tolerance)
@@ -57,6 +57,7 @@ float PID::update(float set, float current)
     else
     {
         controlEffort = 0.0;
+        resetIntegral();
     }
 
     // update time
