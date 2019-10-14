@@ -31,6 +31,7 @@ class PID
         void  setGain(float p, float i, float d);    // sets gains
         void  resetIntegral();    // reset integral
         void  reset();  // reset all controls
+        void  setEffort(float effMax, float effMin);  // update min/max effort
         float update(float set, float current);  // main callback to calculate control effort
 };
 

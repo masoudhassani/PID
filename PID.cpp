@@ -90,3 +90,10 @@ void PID::reset()
     proportional = 0.0;
     differential = 0.0;
 }
+
+// setter function for min and max effort
+void  PID::setEffort(float effMax, float effMin)
+{
+    maxEffort = effMax;
+    minEffort = effMin;
+}
