@@ -25,6 +25,7 @@ class PID
         float minEffort;
         float maxEffort;
         float tolerance;
+        float maxIntegral = 0.2;
 
     public:
         PID(float p, float i, float d, bool windup, float min, float max, float tol);
@@ -32,7 +33,9 @@ class PID
         void  resetIntegral();    // reset integral
         void  reset();  // reset all controls
         void  setEffort(float effMax, float effMin);  // update min/max effort
+        void  constraintIntegral(float maxInt);   // set windup guard value of inegral constraint
         float update(float set, float current);  // main callback to calculate control effort
+        float* returnControlEfforts();
 };
 
 #endif

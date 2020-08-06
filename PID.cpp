@@ -42,15 +42,10 @@ float PID::update(float set, float current)
         // if wind up guard is active
         if (windupGuard)
         {
-            integral = min(max(integral, minEffort - proportional - differential), maxEffort - proportional - differential);
-            controlEffort = integral + proportional + differential;
+            integral = min(max(integral, -maxIntegral), maxIntegral);
         }
 
-        // if windup guard is not active
-        else
-        {
-            controlEffort = min(max(proportional + integral + differential, minEffort), maxEffort);
-        }
+        controlEffort = min(max(proportional + integral + differential, minEffort), maxEffort);
     }
 
     // if error is less than threshold, stabilize the control effort to zero
@@ -92,8 +87,26 @@ void PID::reset()
 }
 
 // setter function for min and max effort
-void  PID::setEffort(float effMax, float effMin)
+void PID::setEffort(float effMax, float effMin)
 {
     maxEffort = effMax;
     minEffort = effMin;
+}
+
+// set windup guard value. for instance if the windup guard value is 0.2 and
+// max/min efforts are 1.0, it means the integral part an have a maximum of 20%
+// of the control effort
+void PID::constraintIntegral(float maxInt)
+{
+    maxIntegral = maxInt;
+}
+
+// return p, i and d control efforts
+float* PID::returnControlEfforts()
+{
+    static float ce[3];
+    ce[0] = proportional;
+    ce[1] = integral;
+    ce[2] = differential;
+    return ce;
 }
